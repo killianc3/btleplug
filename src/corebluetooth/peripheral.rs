@@ -124,7 +124,8 @@ impl Peripheral {
 
                         // Note: we ignore send errors here which may happen while there are no
                         // receivers...
-                        let _ = shared.notifications_channel.send(notification);
+                        let a = shared.notifications_channel.send(notification);
+                        trace!("{a:.?}");
                     }
                     Some(PeripheralEventInternal::ManufacturerData(
                         manufacturer_id,
