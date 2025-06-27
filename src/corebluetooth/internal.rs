@@ -794,6 +794,7 @@ impl CoreBluetoothInternal {
         characteristic_uuid: Uuid,
         data: Vec<u8>,
     ) {
+        trace!("ON CHARACTERISITC READ !!!!!!!!!!!!!!!");
         if let Some(peripheral) = self.peripherals.get_mut(&peripheral_uuid) {
             if let Some(service) = peripheral.services.get_mut(&service_uuid) {
                 if let Some(characteristic) = service.characteristics.get_mut(&characteristic_uuid)
