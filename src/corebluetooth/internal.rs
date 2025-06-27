@@ -809,7 +809,10 @@ impl CoreBluetoothInternal {
                     // we're trying to do a read, we'll have a future we can
                     // fulfill. Otherwise, just treat the returned value as a
                     // notification and use the event system.
+                    trace!("Peripheral {peripheral:#?}, characteristic {characteristic_uuid:#?}");
+
                     if !characteristic.read_future_state.is_empty() {
+                        trace!("BRUHUHUHHUHUHUHUHUHUHUHUHUHUh");
                         let state = characteristic.read_future_state.pop_back().unwrap();
                         state
                             .lock()
