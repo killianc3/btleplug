@@ -58,7 +58,7 @@ pub struct Peripheral {
 }
 
 struct Shared {
-    bruh: Mutex<Option<broadcast::Sender<ValueNotification>>>,
+    bruh: Mutex<Option<broadcast::Receiver<ValueNotification>>>,
     notifications_channel: broadcast::Sender<ValueNotification>,
     manager: Weak<AdapterManager<Peripheral>>,
     uuid: Uuid,
@@ -109,7 +109,7 @@ impl Peripheral {
             manager,
             services: Mutex::new(BTreeSet::new()),
             notifications_channel,
-            bruh: Mutex::new(Some(notifications_channel.subscribe)),
+            bruh: Mutex::new(Some(notifications_channel.subscribe())),
             uuid,
             message_sender,
         });
