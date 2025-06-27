@@ -284,7 +284,7 @@ pub trait Peripheral: Send + Sync + Clone + Debug {
     /// a notification when a value notification or indication is received from the device.
     /// The stream will remain valid across connections and can be queried before any connection
     /// is made.
-    async fn notifications(&mut self) -> Result<Pin<Box<dyn Stream<Item = ValueNotification> + Send>>>;
+    async fn notifications(&self) -> Result<Pin<Box<dyn Stream<Item = ValueNotification> + Send>>>;
 
     /// Write some data to the descriptor. Returns an error if the write couldn't be sent or (in
     /// the case of a write-with-response) if the device returns an error.

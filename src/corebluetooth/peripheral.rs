@@ -58,7 +58,6 @@ pub struct Peripheral {
 }
 
 struct Shared {
-    bruh: Option<broadcast::Receiver<ValueNotification>>,
     notifications_channel: broadcast::Sender<ValueNotification>,
     manager: Weak<AdapterManager<Peripheral>>,
     uuid: Uuid,
@@ -108,7 +107,6 @@ impl Peripheral {
             properties,
             manager,
             services: Mutex::new(BTreeSet::new()),
-            bruh: Some(notifications_channel.subscribe()),
             notifications_channel,
             uuid,
             message_sender,
@@ -126,6 +124,8 @@ impl Peripheral {
 
                         // Note: we ignore send errors here which may happen while there are no
                         // receivers...
+
+                        let receiver = shared.notifications_channel.subscribe();
 
                         let a = shared.notifications_channel.send(notification);
                         trace!("{a:.?}");
@@ -392,10 +392,10 @@ impl api::Peripheral for Peripheral {
         Ok(())
     }
 
-    async fn notifications(&mut self) -> Result<Pin<Box<dyn Stream<Item = ValueNotification> + Send>>> {
+    async fn notifications(&self) -> Result<Pin<Box<dyn Stream<Item = ValueNotification> + Send>>> {
         let receiver = self.shared.notifications_channel.subscribe();
         trace!("SUBSCRIBE TO THE CHANNEL");
-        Ok(notifications_stream_from_broadcast_receiver(self.shared.bruh.take().unwrap()))
+        Ok(notifications_stream_from_broadcast_receiver(receiver))
     }
 
     async fn write_descriptor(&self, descriptor: &Descriptor, data: &[u8]) -> Result<()> {
