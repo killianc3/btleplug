@@ -124,6 +124,9 @@ impl Peripheral {
 
                         // Note: we ignore send errors here which may happen while there are no
                         // receivers...
+
+                        let receiver = shared.notifications_channel.subscribe();
+
                         let a = shared.notifications_channel.send(notification);
                         trace!("{a:.?}");
                     }
