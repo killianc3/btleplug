@@ -127,6 +127,7 @@ impl Peripheral {
 
                         let receiver = shared.notifications_channel.subscribe();
 
+                        trace!("NOTIFICATION CHANNELLLLLLLLLLLL {:p}", shared.notifications_channel);
                         let a = shared.notifications_channel.send(notification);
                         trace!("{a:.?}");
                     }
@@ -395,6 +396,7 @@ impl api::Peripheral for Peripheral {
     async fn notifications(&self) -> Result<Pin<Box<dyn Stream<Item = ValueNotification> + Send>>> {
         let receiver = self.shared.notifications_channel.subscribe();
         trace!("SUBSCRIBE TO THE CHANNEL");
+        trace!("NOTIFICATION CHANNELLLLLLLLLLLL {:p}", self.shared.notifications_channel);
         Ok(notifications_stream_from_broadcast_receiver(receiver))
     }
 
