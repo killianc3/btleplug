@@ -120,12 +120,10 @@ impl Peripheral {
                 match event_receiver.next().await {
                     Some(PeripheralEventInternal::Notification(uuid, data)) => {
                         let notification = ValueNotification { uuid, value: data };
-                        trace!("NOTIFICATION  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        trace!("NOTIFICATION "); 
 
                         // Note: we ignore send errors here which may happen while there are no
                         // receivers...
-
-                        let receiver = shared.notifications_channel.subscribe();
 
                         let a = shared.notifications_channel.send(notification);
                         trace!("{a:.?}");
