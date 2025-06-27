@@ -710,9 +710,15 @@ declare_class!(
                 descriptor_debug(descriptor),
                 localized_description(error)
             );
+            trace!("TEST");
             if error.is_none() {
+                trace!("ERROR IS OK");
                 let characteristic = unsafe { descriptor.characteristic() }.unwrap();
+                trace!("CHARACTERISITC {characteristic:#?}");
+                
                 let service = unsafe { characteristic.service() }.unwrap();
+                trace!("SERVICE {service:#?}");
+
                 self.send_event(CentralDelegateEvent::DescriptorWritten {
                     peripheral_uuid: nsuuid_to_uuid(unsafe { &peripheral.identifier() }),
                     service_uuid: cbuuid_to_uuid(unsafe { &service.UUID() }),
