@@ -127,7 +127,7 @@ impl Peripheral {
 
                         let receiver = shared.notifications_channel.subscribe();
 
-                        trace!("NOTIFICATION CHANNELLLLLLLLLLLL {:p}", shared.notifications_channel);
+                        trace!("NOTIFICATION CHANNELLLLLLLLLLLL {:p}", &shared.notifications_channel);
                         let a = shared.notifications_channel.send(notification);
                         trace!("{a:.?}");
                     }
