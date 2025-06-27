@@ -731,10 +731,16 @@ impl CentralDelegate {
     }
 
     fn send_event(&self, event: CentralDelegateEvent) {
+        trace!("SEND EVENT");
+
         let mut sender = self.ivars().clone();
+        trace!("SENDER {sender:#?} EVENT {event:#?}");
+
         futures::executor::block_on(async {
             if let Err(e) = sender.send(event).await {
                 error!("Error sending delegate event: {}", e);
+            } else {
+                trace!("SEND DONE");
             }
         });
     }
