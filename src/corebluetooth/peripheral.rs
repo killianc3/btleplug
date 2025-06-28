@@ -109,7 +109,7 @@ impl Peripheral {
             manager,
             services: Mutex::new(BTreeSet::new()),
             bruh: Mutex::new(Some(notifications_channel.subscribe())),
-            notifications_channel,
+            notifications_channel.clone(),
             uuid,
             message_sender,
         });
@@ -127,7 +127,7 @@ impl Peripheral {
                         // Note: we ignore send errors here which may happen while there are no
                         // receivers...
 
-                        let a = shared.notifications_channel.send(notification);
+                        let a = notifications_channel.send(notification);
                         trace!("{a:.?}");
                     }
                     Some(PeripheralEventInternal::ManufacturerData(
