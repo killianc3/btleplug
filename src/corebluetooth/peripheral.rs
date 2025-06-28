@@ -203,7 +203,7 @@ impl Debug for Peripheral {
 }
 
 impl Peripheral {
-    fn custom_notifications(&self) -> broadcast::Receiver<ValueNotification> {
+    pub fn custom_notifications(&self) -> broadcast::Receiver<ValueNotification> {
         self.shared.bruh.lock().unwrap().take().unwrap()
     }
 }
