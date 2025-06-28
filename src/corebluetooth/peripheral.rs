@@ -202,6 +202,12 @@ impl Debug for Peripheral {
     }
 }
 
+impl Peripheral {
+    fn custom_notifications(&self) -> broadcast::Receiver<ValueNotification> {
+        self.shared.bruh.lock().unwrap().take().unwrap()
+    }
+}
+
 #[async_trait]
 impl api::Peripheral for Peripheral {
     fn id(&self) -> PeripheralId {
