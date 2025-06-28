@@ -106,7 +106,7 @@ impl Peripheral {
         let (notifications_channel, _) = broadcast::channel(16);
 
         let shared = Arc::new(Shared {
-            id: format!("IDENT {:p}", &notifications_channel),
+            id: format!("IDENT {:?}", std::time::Instant::now()),
             properties,
             manager,
             services: Mutex::new(BTreeSet::new()),
