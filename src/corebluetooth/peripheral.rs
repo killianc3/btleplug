@@ -58,6 +58,7 @@ pub struct Peripheral {
 }
 
 struct Shared {
+    id: String,
     bruh: Mutex<Option<broadcast::Receiver<ValueNotification>>>,
     notifications_channel: broadcast::Sender<ValueNotification>,
     manager: Weak<AdapterManager<Peripheral>>,
@@ -89,7 +90,6 @@ impl Peripheral {
         event_receiver: Receiver<PeripheralEventInternal>,
         message_sender: Sender<CoreBluetoothMessage>,
     ) -> Self {
-        info!("BUILDING A PERIPHERALLLLLLLLLLLLLLLLLLLLLLL");
         // Since we're building the object, we have an active advertisement.
         // Build properties now.
         let properties = Mutex::from(PeripheralProperties {
@@ -104,15 +104,9 @@ impl Peripheral {
             class: None,
         });
         let (notifications_channel, _) = broadcast::channel(16);
-        let mut receiver = notifications_channel.subscribe();
-
-        let notification = ValueNotification { uuid: crate::api::bleuuid::uuid_from_u16(0xFFE9), value: vec![] };
-        let alo = notifications_channel.send(notification);
-
-        info!("ALO {:?}", alo);
-        info!("{} {:?}", receiver.len(), receiver.try_recv());
 
         let shared = Arc::new(Shared {
+            id: format!("IDENT {:p}", &notifications_channel),
             properties,
             manager,
             services: Mutex::new(BTreeSet::new()),
@@ -121,6 +115,8 @@ impl Peripheral {
             uuid,
             message_sender,
         });
+
+        info!("BUILDING A PERIPHERALLLLLLLLLLLLLLLLLLLLLLL {}", shared.id);
         let shared_clone = shared.clone();
         task::spawn(async move {
             let mut event_receiver = event_receiver;
@@ -130,7 +126,7 @@ impl Peripheral {
                 match event_receiver.next().await {
                     Some(PeripheralEventInternal::Notification(uuid, data)) => {
                         let notification = ValueNotification { uuid, value: data };
-                        trace!("NOTIFICATION "); 
+                        trace!("NOTIFICATIONnnnnnnn {} ", shared.id); 
 
                         // Note: we ignore send errors here which may happen while there are no
                         // receivers...
@@ -212,6 +208,7 @@ impl Debug for Peripheral {
 
 impl Peripheral {
     pub fn custom_notifications(&self) -> broadcast::Receiver<ValueNotification> {
+        info!("GETTTTTTING CUSTOM NOTITF {}", self.shared.id);
         self.shared.bruh.lock().unwrap().take().unwrap()
     }
 }
