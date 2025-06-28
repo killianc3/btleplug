@@ -104,7 +104,7 @@ impl Peripheral {
             class: None,
         });
         let (notifications_channel, _) = broadcast::channel(16);
-        let receiver = notifications_channel.subscribe();
+        let mut receiver = notifications_channel.subscribe();
 
         let notification = ValueNotification { uuid: crate::api::bleuuid::uuid_from_u16(0xFFE9), value: vec![] };
         let alo = notifications_channel.send(notification);
