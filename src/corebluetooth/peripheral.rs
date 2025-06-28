@@ -109,7 +109,7 @@ impl Peripheral {
             manager,
             services: Mutex::new(BTreeSet::new()),
             bruh: Mutex::new(Some(notifications_channel.subscribe())),
-            notifications_channel.clone(),
+            notifications_channel: notifications_channel.clone(),
             uuid,
             message_sender,
         });
