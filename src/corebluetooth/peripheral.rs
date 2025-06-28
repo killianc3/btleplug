@@ -116,7 +116,7 @@ impl Peripheral {
             message_sender,
         });
 
-        info!("BUILDING A PERIPHERALLLLLLLLLLLLLLLLLLLLLLL {}", shared.id);
+        info!("BUILDING A PERIPHERALLLLLLLLLLLLLLLLLLLLLLL IDENT {}", shared.id);
         let shared_clone = shared.clone();
         task::spawn(async move {
             let mut event_receiver = event_receiver;
@@ -208,7 +208,7 @@ impl Debug for Peripheral {
 
 impl Peripheral {
     pub fn custom_notifications(&self) -> broadcast::Receiver<ValueNotification> {
-        info!("GETTTTTTING CUSTOM NOTITF {}", self.shared.id);
+        info!("GETTTTTTING CUSTOM NOTITF CALL IDENT {}", self.shared.id);
         self.shared.bruh.lock().unwrap().take().unwrap()
     }
 }
