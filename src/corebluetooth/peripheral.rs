@@ -89,6 +89,7 @@ impl Peripheral {
         event_receiver: Receiver<PeripheralEventInternal>,
         message_sender: Sender<CoreBluetoothMessage>,
     ) -> Self {
+        info!("BUILDING A PERIPHERALLLLLLLLLLLLLLLLLLLLLLL");
         // Since we're building the object, we have an active advertisement.
         // Build properties now.
         let properties = Mutex::from(PeripheralProperties {
